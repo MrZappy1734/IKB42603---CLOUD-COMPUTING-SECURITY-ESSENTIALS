@@ -47,7 +47,7 @@ kubectl version --client
 
 `kubectl version --client` checks the client program only; it does not require a Kubernetes cluster to be running at that moment. This command was used to confirm that the tool needed to communicate with and inspect the cluster is installed correctly. The output shows kubectl client version `v1.33.4` and Kustomize version `v5.5.0`.
 
-![Terminal showing kind and kubectl version checks](<Screenshot 2026-07-27 191209.png>)
+<img width="960" height="1020" alt="Screenshot 2026-07-27 191209" src="https://github.com/user-attachments/assets/1f835082-0437-4e2a-b61a-f6075ebc5c4f" />
 
 ## Step 2: Start and Check LocalStack
 
