@@ -73,7 +73,7 @@ curl http://localhost:4566/_localstack/health
 
 `curl` sends an HTTP request to the LocalStack health endpoint. The returned JSON lists services such as S3, IAM, Lambda, DynamoDB, and STS as available, confirming that LocalStack is ready to accept local AWS-style requests.
 
-![Terminal showing LocalStack container and health endpoint](<Screenshot 2026-07-27 194101.png>)
+<img width="960" height="1020" alt="Screenshot 2026-07-27 194101" src="https://github.com/user-attachments/assets/97524c81-f99a-4a67-b900-5672812c12a6" />
 
 ## Step 3: Test LocalStack Container Lifecycle Commands
 
@@ -89,7 +89,7 @@ docker rm -f localstack
 
 The screenshot shows each command returning the container name `localstack`, which confirms that the stop, restart, and removal operations completed.
 
-![Terminal showing LocalStack stop, start, and removal](<Screenshot 2026-07-27 194519.png>)
+<img width="960" height="1020" alt="Screenshot 2026-07-27 194519" src="https://github.com/user-attachments/assets/c676e032-8a5f-4b7a-9092-09cf35528332" />
 
 ## Step 4: Create and Verify the Local Kubernetes Cluster
 
@@ -110,7 +110,7 @@ kubectl get nodes
 
 `kubectl cluster-info --context kind-ccse` queries the cluster using the context created by kind. It confirms that the Kubernetes control plane is reachable and identifies the CoreDNS service. `kubectl get nodes` lists the nodes known to the cluster. The `ccse-control-plane` node is shown with status `Ready`, demonstrating that the cluster finished starting and is ready for later lab workloads.
 
-![Terminal showing creation and verification of the ccse Kind cluster](<Screenshot 2026-07-27 195148.png>)
+<img width="960" height="1020" alt="Screenshot 2026-07-27 195148" src="https://github.com/user-attachments/assets/4e113d45-37a5-419e-85b2-e26eb8cccebe" />
 
 ## Step 5: Remove the Cluster and Configure AWS CLI for LocalStack
 
@@ -133,7 +133,7 @@ aws configure list
 
 The first two commands save dummy credentials named `test`. LocalStack accepts these values, so real AWS credentials are neither required nor appropriate for this lab. The region is set to `us-east-1`, which provides a consistent default region for AWS CLI commands. `aws configure list` displays the active configuration and was used to confirm that the values were stored in the AWS shared credentials and configuration files.
 
-![Terminal showing Kind cluster deletion and AWS CLI configuration](<Screenshot 2026-07-27 203457.png>)
+<img width="960" height="1020" alt="Screenshot 2026-07-27 203457" src="https://github.com/user-attachments/assets/6031d0cb-90a2-4f57-8e0f-170f84f935ff" />
 
 ## Step 6: Verify oathtool
 
@@ -145,7 +145,7 @@ oathtool --version
 
 `oathtool` is part of the OATH Toolkit. It is used to work with one-time passwords, including TOTP-based multi-factor authentication codes, which are relevant to later security exercises. The `--version` option verifies that the executable is installed and accessible without generating a code or requiring a secret. The output confirms OATH Toolkit version `2.6.14`.
 
-![Terminal showing oathtool version check](<Screenshot 2026-07-27 203525.png>)
+<img width="960" height="1020" alt="Screenshot 2026-07-27 203525" src="https://github.com/user-attachments/assets/af0ff03d-c603-4cf8-88dd-42ceef16d010" />
 
 ## Step 7: Connect AWS CLI to LocalStack
 
@@ -178,7 +178,7 @@ aws $EP sts get-caller-identity
 
 `sts get-caller-identity` is a simple AWS CLI test because it returns the identity used for the request. The response contains LocalStack's example user ID, an all-zero account number, and a local IAM root ARN. This confirms both that the AWS CLI command succeeded and that it contacted LocalStack instead of real AWS.
 
-![Terminal showing successful AWS CLI connection to LocalStack](<Screenshot 2026-07-29 101402.png>)
+<img width="1920" height="1020" alt="Screenshot 2026-07-29 101402" src="https://github.com/user-attachments/assets/8d6793a0-0812-4667-a12a-d626d0535e32" />
 
 ## Pre-Lab Verification Checklist
 
