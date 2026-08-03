@@ -143,7 +143,7 @@ aws $EP iam get-group --group-name Admins
 
 This shows that the created admin user is now a member of the Admins group and inherits its permissions.
 
-![Admin group creation and membership verification](Screenshot%202026-07-29%20194040.png)
+![Admin group creation and membership verification](Evidence/Screenshot%202026-07-29%20194040.png)
 
 ## Task 3: Enforce Least Privilege with a Scoped Policy
 
@@ -170,7 +170,7 @@ aws $EP iam list-attached-user-policies --user-name Analyst_Zappy
 
 This confirms that the Analyst account has only the read-only S3 policy attached, which limits what it can do compared to a full admin account.
 
-![Create Analyst user and attach read-only policy](Screenshot%202026-07-29%20194959.png)
+![Create Analyst user and attach read-only policy](Evidence/Screenshot%202026-07-29%20194959.png)
 
 ### Why this reduces blast radius
 
@@ -201,7 +201,7 @@ aws $EP iam update-access-key --user-name Analyst_Zappy \
 
 This demonstrates credential rotation and shows that keys should not be kept active forever.
 
-![Access key creation, listing, and rotation](Screenshot%202026-07-29%20195531%20edited.png)
+![Access key creation, listing, and rotation](Evidence/Screenshot%202026-07-29%20195531%20edited.png)
 
 ### Security note
 
