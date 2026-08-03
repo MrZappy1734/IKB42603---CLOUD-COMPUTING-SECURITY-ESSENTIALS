@@ -88,7 +88,7 @@ aws --endpoint-url=http://localhost:4566 sts get-caller-identity
 
 This is the first evidence screenshot because it proves which identity the environment is operating as.
 
-![AWS CLI identity test against LocalStack](Screenshot%202026-07-29%20193820%20edited.png)
+![AWS CLI identity test against LocalStack](Evidence/Screenshot%202026-07-29%20193820%20edited.png)
 
 ## Task 1: Map the Cloud Identity Landscape
 
