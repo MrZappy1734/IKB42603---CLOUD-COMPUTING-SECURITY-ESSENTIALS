@@ -62,7 +62,7 @@ curl http://localhost:4566/_localstack/health
 
 The screenshot below shows the LocalStack container being started and the health endpoint responding correctly.
 
-![LocalStack startup and health verification](Evidence/Screenshot 2026-07-29 193709.png)
+![LocalStack startup and health verification](Evidence/Screenshot%202026-07-29%20193709.png)
 
 ## Step 2: Configure AWS CLI for LocalStack
 
