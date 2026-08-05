@@ -5,7 +5,7 @@
 **Course:** IKB42603 Cloud Computing Security Essentials  
 **Lab:** Lab 1 - Account Security and IAM  
 **Session:** Session B (Week 2)  
-**Name:** Student name  
+**Name:** MUHAMMAD HAFIZI HASDI  
 **Date:** 05 August 2026  
 
 ## Objective
@@ -62,7 +62,7 @@ curl http://localhost:4566/_localstack/health
 
 The screenshot below shows the LocalStack container being verified before the Kubernetes RBAC work began.
 
-![LocalStack health verification for Session B](Screenshot%202026-08-05%20112849.png)
+![LocalStack health verification for Session B](Evidence/Screenshot%202026-08-05%20112849.png)
 
 ## Step 2: Create the Local Kubernetes Cluster
 
@@ -83,7 +83,7 @@ kubectl get nodes
 
 This proves that the Kubernetes cluster is running and available for RBAC testing.
 
-![Create and verify the Kubernetes cluster](Screenshot%202026-08-05%20112957.png)
+![Create and verify the Kubernetes cluster](Evidence/Screenshot%202026-08-05%20112957.png)
 
 ## Task 5: Separate Environments with Namespaces
 
@@ -99,7 +99,7 @@ kubectl get namespaces
 
 This creates two logical environments where RBAC can be tested independently.
 
-![Create dev and prod namespaces](Screenshot%202026-08-05%20113115.png)
+![Create dev and prod namespaces](Evidence/Screenshot%202026-08-05%20113115.png)
 
 ## Task 6: Define a Role and Bind It (Least Privilege)
 
@@ -165,7 +165,7 @@ Expected result: `no`
 
 These three outputs prove that authentication identifies the service account, while authorization decides what the service account is actually allowed to do.
 
-![RBAC can-i verification results](Screenshot%202026-08-05%20113248.png)
+![RBAC can-i verification results](Evidence/Screenshot%202026-08-05%20113248.png)
 
 ## Short-Answer Questions
 
