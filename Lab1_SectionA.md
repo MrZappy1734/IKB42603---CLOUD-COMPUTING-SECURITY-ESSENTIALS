@@ -5,7 +5,7 @@
 **Course:** IKB42603 Cloud Computing Security Essentials  
 **Lab:** Lab 1 - Account Security and IAM  
 **Session:** Session A (Week 1)  
-**Name:** Student name  
+**Name:** MUHAMMAD HAFIZI HASDI  
 **Date:** 03 August 2026  
 
 ## Objective
