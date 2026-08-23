@@ -61,7 +61,7 @@ diff record.txt record.dec.txt && echo 'MATCH: decryption successful'
 
 The comparison returned `MATCH: decryption successful`, proving that the encrypted record could be restored with the correct password.
 
-![AES encryption and successful decryption](../Evidence/Screenshot%202026-08-24%20002603.png)
+![AES encryption and successful decryption](Evidence/Screenshot%202026-08-24%20002603.png)
 
 ## Task 2 — Asymmetric Encryption & Digital Signatures
 
@@ -100,7 +100,7 @@ openssl dgst -sha256 -verify public.pem \
 
 The output `Verified OK` confirms that the signature was created with the private key and successfully verified with the public key. This provides integrity and authenticity for the signed file.
 
-![RSA encryption and signature verification](../Evidence/Screenshot%202026-08-24%20002629.png)
+![RSA encryption and signature verification](Evidence/Screenshot%202026-08-24%20002629.png)
 
 ## Task 3 — Encryption in Transit (TLS)
 
@@ -146,7 +146,7 @@ curl -k https://localhost:8443/record.txt
 
 The Nginx container started successfully and `curl` retrieved the record over the TLS endpoint. The `-k` option is appropriate for this local self-signed certificate because it skips public certificate-authority validation during the demonstration.
 
-![HTTPS Nginx deployment and protected record](../Evidence/Screenshot%202026-08-24%20002727.png)
+![HTTPS Nginx deployment and protected record](Evidence/Screenshot%202026-08-24%20002727.png)
 
 ## Session B (Week 6) — Key Management, Envelope Encryption & Erasure
 
@@ -170,7 +170,7 @@ aws $EP kms create-key --description 'CCSE tenant-A master key'
 
 The response showed an enabled symmetric KMS key with encryption and decryption usage. The returned key ID was stored in `KEY_A` for the following operations.
 
-![Tenant-A KMS master key creation](../Evidence/Screenshot%202026-08-24%20002952.png)
+![Tenant-A KMS master key creation](Evidence/Screenshot%202026-08-24%20002952.png)
 
 ## Task 5 — Envelope Encryption
 
@@ -186,7 +186,7 @@ aws $EP kms encrypt --key-id $KEY_A \
 
 This operation returned a KMS ciphertext blob, showing that KMS could encrypt data using the tenant-A master key.
 
-![KMS encryption using tenant-A key](../Evidence/Screenshot%202026-08-24%20003502.png)
+![KMS encryption using tenant-A key](Evidence/Screenshot%202026-08-24%20003502.png)
 
 ### 5.2 Generate a data key
 
@@ -198,7 +198,7 @@ aws $EP kms generate-data-key --key-id $KEY_A \
 
 KMS returned a plaintext AES-256 data key for local encryption and a ciphertext version of that same data key wrapped by the master key.
 
-![KMS data-key generation](../Evidence/Screenshot%202026-08-24%20003619.png)
+![KMS data-key generation](Evidence/Screenshot%202026-08-24%20003619.png)
 
 ### 5.3 Encrypt the record locally and retain only the wrapped key
 
@@ -217,7 +217,7 @@ echo 'Only the KMS-wrapped data key (datakey.enc) remains.'
 
 The evidence confirms that the encrypted record and wrapped data key remained after the plaintext data-key material was removed. This reduces exposure because the data key is not stored in plaintext.
 
-![Envelope encryption and removal of plaintext data key](../Evidence/Screenshot%202026-08-24%20003800.png)
+![Envelope encryption and removal of plaintext data key](Evidence/Screenshot%202026-08-24%20003800.png)
 
 ## Task 6 — Per-Tenant Keys & Cryptographic Erasure
 
@@ -244,7 +244,7 @@ aws $EP kms decrypt --ciphertext-blob fileb://datakey.enc
 
 The KMS response showed the tenant-A key in `PendingDeletion` state with a seven-day pending window. The subsequent decrypt attempt failed because the key was no longer usable. This is the expected security result: destroying or disabling the key makes the wrapped data key unusable, which demonstrates cryptographic erasure of the protected data.
 
-![Tenant-B key separation and tenant-A key deletion result](../Evidence/Screenshot%202026-08-24%20003848.png)
+![Tenant-B key separation and tenant-A key deletion result](Evidence/Screenshot%202026-08-24%20003848.png)
 
 ## Task 7 — Integrity & Tamper-Evidence
 
@@ -273,7 +273,7 @@ done
 
 The evidence shows distinct hash values for the audit entries. Each new hash includes the previous hash, so tampering with an earlier entry would break the chain from that point onward.
 
-![SHA-256 tamper detection and audit-log hashes](../Evidence/Screenshot%202026-08-24%20003914.png)
+![SHA-256 tamper detection and audit-log hashes](Evidence/Screenshot%202026-08-24%20003914.png)
 
 ## Cleanup
 
@@ -287,7 +287,7 @@ docker stop localstack && docker rm localstack
 
 The cleanup evidence shows the TLS and LocalStack containers being stopped. Removing temporary keys and encrypted test files reduces the chance of leaving sensitive material in the working directory.
 
-![Lab 3 cleanup](../Evidence/Screenshot%202026-08-24%20003946.png)
+![Lab 3 cleanup](Evidence/Screenshot%202026-08-24%20003946.png)
 
 ## Short-Answer Questions
 
