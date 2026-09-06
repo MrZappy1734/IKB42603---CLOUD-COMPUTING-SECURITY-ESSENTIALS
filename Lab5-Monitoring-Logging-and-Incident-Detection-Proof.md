@@ -51,7 +51,7 @@ cat auth.log
 
 The generated log records the sequence that will later be detected as a probable brute-force attack followed by account compromise and data exfiltration.
 
-![Generated authentication log](../Evidence/Screenshot%202026-09-06%20122221.png)
+![Generated authentication log](Evidence/Screenshot%202026-09-06%20122221.png)
 
 ## Task 2 — Centralise Logs (Ship to CloudWatch)
 
@@ -91,9 +91,9 @@ aws $EP logs get-log-events \
 
 The read-back output contains the same authentication events as the local file, proving that the application logs were shipped to and retrieved from the central service.
 
-![LocalStack log group and stream setup](../Evidence/Screenshot%202026-09-06%20122034.png)
+![LocalStack log group and stream setup](Evidence/Screenshot%202026-09-06%20122034.png)
 
-![Centralised log read-back](../Evidence/Screenshot%202026-09-06%20140325.png)
+![Centralised log read-back](Evidence/Screenshot%202026-09-06%20140325.png)
 
 ## Task 3 — Query for Security-Relevant Activity
 
@@ -111,7 +111,7 @@ ALERT: 4 failures from 203.0.113.9
 
 The log is the durable record; the event is the alert or trigger generated from one or more records.
 
-![Failed-login count grouped by IP](../Evidence/Screenshot%202026-09-06%20140354.png)
+![Failed-login count grouped by IP](Evidence/Screenshot%202026-09-06%20140354.png)
 
 ## Session B (Week 10) — Tamper-Proofing, Detection & Response
 
@@ -149,7 +149,7 @@ echo "$PREV"
 
 Changing one log entry changed the final hash. The different final hash proves that the tampered log is not identical to the original hash chain. In a production design, the final hash or the chain would also be forwarded to a separate append-only location so that an attacker who can edit the application log cannot silently rewrite its audit trail.
 
-![Hash chain and tampered-log comparison](../Evidence/Screenshot%202026-09-06%20140707.png)
+![Hash chain and tampered-log comparison](Evidence/Screenshot%202026-09-06%20140707.png)
 
 ## Task 5 — Detect the Incident (Correlation)
 
@@ -177,7 +177,7 @@ ALERT: probable brute-force -> compromise -> data exfiltration
 
 No single log line proves the complete incident. The correlation rule detects the sequence of repeated failures, a successful login, and a large export from the same IP address. This models the type of multi-event detection performed by a SIEM.
 
-![Incident correlation alert](../Evidence/Screenshot%202026-09-06%20140819.png)
+![Incident correlation alert](Evidence/Screenshot%202026-09-06%20140819.png)
 
 ## Task 6 — Incident Response
 
@@ -194,7 +194,7 @@ docker run --rm --cap-add=NET_ADMIN alpine sh -c \
 
 The output showed a `DROP` rule for source address `203.0.113.9`, modelling containment of the suspected attacker.
 
-![Containment rule and evidence hash creation](../Evidence/Screenshot%202026-09-06%20141001.png)
+![Containment rule and evidence hash creation](Evidence/Screenshot%202026-09-06%20141001.png)
 
 ### Collect Evidence & Integrity
 
@@ -217,7 +217,7 @@ sha256sum -c evidence.sha256
 
 The output reported `evidence_20260906.log: OK`, confirming that the evidence file had not changed after its hash was recorded.
 
-![Central log-group and evidence-integrity verification](../Evidence/Screenshot%202026-09-06%20141212.png)
+![Central log-group and evidence-integrity verification](Evidence/Screenshot%202026-09-06%20141212.png)
 
 ## Incident Report
 
@@ -301,7 +301,7 @@ rm -f auth.log auth.chain auth.tampered evidence_*.log evidence.sha256
 docker stop localstack && docker rm localstack
 ```
 
-![Lab cleanup](../Evidence/Screenshot%202026-09-06%20141236.png)
+![Lab cleanup](Evidence/Screenshot%202026-09-06%20141236.png)
 
 ## Conclusion
 
