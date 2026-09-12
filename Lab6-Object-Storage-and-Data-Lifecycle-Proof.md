@@ -49,7 +49,7 @@ aws $EP sts get-caller-identity
 
 The `get-caller-identity` call returned the fake LocalStack account, confirming the CLI could reach the local endpoint.
 
-![LocalStack startup and AWS CLI configuration](../Evidence/Screenshot%202026-09-12%20195035.png)
+![LocalStack startup and AWS CLI configuration](Evidence/Screenshot%202026-09-12%20195035.png)
 
 ## Task 2 - Create the S3 Bucket and Upload Classified Objects
 
@@ -85,9 +85,9 @@ aws $EP s3api get-object-tagging --bucket $BUCKET --key confidential/record.txt
 
 The listing confirmed all three objects were stored successfully. The tagging query confirmed `classification=confidential` for the sensitive record.
 
-![Bucket creation, object uploads, listing, and tag verification](../Evidence/Screenshot%202026-09-12%20200629.png)
+![Bucket creation, object uploads, listing, and tag verification](Evidence/Screenshot%202026-09-12%20200629.png)
 
-![Object upload confirmation with AES256 server-side encryption metadata](../Evidence/Screenshot%202026-09-12%20200741.png)
+![Object upload confirmation with AES256 server-side encryption metadata](Evidence/Screenshot%202026-09-12%20200741.png)
 
 ## Task 3 - Apply a Public-Read Bucket Policy and Demonstrate the Misconfiguration
 
@@ -121,11 +121,11 @@ cat leaked.txt
 
 The output showed `HTTP 200` and the full patient record content, proving the misconfiguration.
 
-![Public bucket policy applied](../Evidence/Screenshot%202026-09-12%20220249.png)
+![Public bucket policy applied](Evidence/Screenshot%202026-09-12%20220249.png)
 
-![Public bucket policy applied and read back](../Evidence/Screenshot%202026-09-12%20201142.png)
+![Public bucket policy applied and read back](Evidence/Screenshot%202026-09-12%20201142.png)
 
-![Confidential record retrieved anonymously - misconfiguration confirmed](../Evidence/Screenshot%202026-09-12%20201214.png)
+![Confidential record retrieved anonymously - misconfiguration confirmed](Evidence/Screenshot%202026-09-12%20201214.png)
 
 ## Task 4 - Remediate: Block Public Access and Apply Least-Privilege Policy
 
@@ -163,13 +163,13 @@ aws $EP s3api put-bucket-policy --bucket $BUCKET --policy file://least-privilege
 aws $EP s3api get-bucket-policy --bucket $BUCKET --query Policy --output text
 ```
 
-![Public Access Block enabled and confirmed; public policy blocks anonymous read](../Evidence/Screenshot%202026-09-12%20220704.png)
+![Public Access Block enabled and confirmed; public policy blocks anonymous read](Evidence/Screenshot%202026-09-12%20220704.png)
 
-![Least-privilege policy written, applied, and read back](../Evidence/Screenshot%202026-09-12%20221227.png)
+![Least-privilege policy written, applied, and read back](Evidence/Screenshot%202026-09-12%20221227.png)
 
-![Least-privilege policy written, applied, and read back](../Evidence/Screenshot%202026-09-12%20221503.png)
+![Least-privilege policy written, applied, and read back](Evidence/Screenshot%202026-09-12%20221503.png)
 
-![Least-privilege policy written, applied, and read back](../Evidence/Screenshot%202026-09-12%20221616.png)
+![Least-privilege policy written, applied, and read back](Evidence/Screenshot%202026-09-12%20221616.png)
 
 ## Task 5 - IAM User with Deny-Confidential Policy
 
@@ -198,9 +198,9 @@ aws $EP iam create-access-key --user-name DataAnalyst \
 
 The key pair was noted for use in the `analyst` AWS named profile.
 
-![IAM user DataAnalyst created; access key issued](../Evidence/Screenshot%202026-09-12%20203759.png)
+![IAM user DataAnalyst created; access key issued](Evidence/Screenshot%202026-09-12%20203759.png)
 
-![IAM user DataAnalyst created; access key issued](../Evidence/Screenshot%202026-09-12%20203830.png)
+![IAM user DataAnalyst created; access key issued](Evidence/Screenshot%202026-09-12%20203830.png)
 
 A combined bucket policy was then applied with two statements: one **Allow** for the analyst on `internal/*` and one explicit **Deny** for the analyst on `confidential/*`:
 
@@ -289,11 +289,11 @@ aws $EP s3api head-object --bucket $BUCKET \
   --query '[ServerSideEncryption,SSEKMSKeyId,BucketKeyEnabled]' --output text
 ```
 
-![KMS key created; encryption configuration applied; object head confirms aws:kms](../Evidence/Screenshot%202026-09-12%20204618.png)
+![KMS key created; encryption configuration applied; object head confirms aws:kms](Evidence/Screenshot%202026-09-12%20204618.png)
 
-![KMS encryption confirmed on newly uploaded object](../Evidence/Screenshot%202026-09-12%20204706.png)
+![KMS encryption confirmed on newly uploaded object](Evidence/Screenshot%202026-09-12%20204706.png)
 
-![KMS encryption confirmed on newly uploaded object](../Evidence/Screenshot%202026-09-12%20204716.png)
+![KMS encryption confirmed on newly uploaded object](Evidence/Screenshot%202026-09-12%20204716.png)
 
 ## Task 7 - Secure Transport Policy (HTTPS-Only)
 
@@ -323,13 +323,13 @@ aws $EP s3api delete-bucket-policy --bucket $BUCKET
 
 The `list-objects-v2` returned the object list (LocalStack does not enforce TLS locally, so the call was not refused), and the policy was removed to restore access for subsequent tasks. The object listing confirmed four objects were present in the bucket.
 
-![Secure transport policy applied, list-objects-v2 tested, policy removed](../Evidence/Screenshot%202026-09-12%20204816.png)
+![Secure transport policy applied, list-objects-v2 tested, policy removed](Evidence/Screenshot%202026-09-12%20204816.png)
 
-![Object listing showing all objects in bucket after policy removal](../Evidence/Screenshot%202026-09-12%20204845.png)
+![Object listing showing all objects in bucket after policy removal](Evidence/Screenshot%202026-09-12%20204845.png)
 
-![Object listing showing all objects in bucket after policy removal](../Evidence/Screenshot%202026-09-12%20204929.png)
+![Object listing showing all objects in bucket after policy removal](Evidence/Screenshot%202026-09-12%20204929.png)
 
-![Object listing showing all objects in bucket after policy removal](../Evidence/Screenshot%202026-09-12%20205200.png)
+![Object listing showing all objects in bucket after policy removal](Evidence/Screenshot%202026-09-12%20205200.png)
 
 ## Task 8 - Versioning and Pre-Signed URL
 
@@ -370,9 +370,9 @@ curl -s -o /dev/null -w 'after expiry: HTTP %{http_code}\n' "$URL"
 
 The first `curl` returned `HTTP 200` and the file content. After the 65-second sleep, the same URL returned `HTTP 200` in LocalStack (LocalStack does not enforce URL expiry), but in a real AWS environment it would have returned `403 Request has expired`.
 
-![Versioning enabled; three versions of confidential/record.txt stored](../Evidence/Screenshot%202026-09-12%20205312.png)
+![Versioning enabled; three versions of confidential/record.txt stored](Evidence/Screenshot%202026-09-12%20205312.png)
 
-![Version list showing all three versioned IDs](../Evidence/Screenshot%202026-09-12%20205414.png)
+![Version list showing all three versioned IDs](Evidence/Screenshot%202026-09-12%20205414.png)
 
 ## Verification Command and Cleanup & Teardown
 
@@ -409,9 +409,9 @@ aws $EP s3api list-object-versions --bucket $BUCKET \
 
 The remaining version list showed only the two explicitly versioned IDs, confirming the null-version entry was permanently removed.
 
-![Soft delete (delete marker) placed; original recovered by version ID](../Evidence/Screenshot%202026-09-12%20210114.png)
+![Soft delete (delete marker) placed; original recovered by version ID](Evidence/Screenshot%202026-09-12%20210114.png)
 
-![Permanent per-version deletion; remaining versions listed](../Evidence/Screenshot%202026-09-12%20205200.png)
+![Permanent per-version deletion; remaining versions listed](Evidence/Screenshot%202026-09-12%20205200.png)
 
 
 A lifecycle configuration with two rules was applied to automate data retention management:
@@ -446,7 +446,7 @@ aws $EP s3api get-bucket-lifecycle-configuration --bucket $BUCKET \
 
 The output confirmed both rules - `RetireConfidentialRecords` and `AbortIncompleteUploads` - were applied and enabled. The first rule will automatically expire confidential objects after 365 days and purge non-current versions after 30 days. The second rule cleans up incomplete multipart uploads after 7 days to avoid orphaned storage charges.
 
-![Lifecycle rules applied and confirmed enabled](../Evidence/Screenshot%202026-09-12%20205312.png)
+![Lifecycle rules applied and confirmed enabled](Evidence/Screenshot%202026-09-12%20205312.png)
 
 
 The KMS key was disabled and scheduled for deletion to demonstrate cryptographic erasure - the technique of rendering encrypted data unreadable by destroying its key rather than erasing the data itself:
@@ -470,7 +470,7 @@ The key moved to `PendingDeletion` with a scheduled deletion date 7 days in the 
 
 The head of the retrieved object showed `Expiration: expiry-date="Mon, 13 Sep 2027"`, which is the lifecycle rule from Task 10 taking effect, and `SSEKMSKeyId` referencing the now-pending-deletion key, confirming that the object data is tied to the key lifecycle.
 
-![KMS key disabled, scheduled for deletion; encrypted object becomes inaccessible](../Evidence/Screenshot%202026-09-12%20205414.png)
+![KMS key disabled, scheduled for deletion; encrypted object becomes inaccessible](Evidence/Screenshot%202026-09-12%20205414.png)
 
 ## Verification Commands
 
@@ -490,7 +490,7 @@ aws $EP kms describe-key --key-id $KEY_ID \
 
 The verification run confirmed: Public Access Block all `true`, versioning `Enabled`, encryption `aws:kms` with the KMS key ARN, lifecycle rules `RetireConfidentialRecords Enabled` and `AbortIncompleteUploads Enabled`, and KMS key state `PendingDeletion`.
 
-![Final verification run confirming all security controls](../Evidence/Screenshot%202026-09-12%20210114.png)
+![Final verification run confirming all security controls](Evidence/Screenshot%202026-09-12%20210114.png)
 
 ## Environment Verification Checklist
 
